@@ -1,0 +1,86 @@
+{
+  "name": "auto-clicker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "parcel build --target node src/index.ts",
+    "start": "parcel --target node src/index.ts",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "author": "drafear",
+  "xo": {
+    "envs": [
+      "es6"
+    ],
+    "space": true,
+    "strict": true,
+    "rules": {
+      "quotes": [
+        "error",
+        "single",
+        {
+          "avoidEscape": true
+        }
+      ],
+      "no-alert": 0,
+      "no-negated-condition": 0,
+      "capitalized-comments": 0,
+      "no-constant-condition": [
+        "error",
+        {
+          "checkLoops": false
+        }
+      ],
+      "default-case": 0,
+      "no-irregular-whitespace": 0,
+      "no-await-in-loop": 0,
+      "no-undef": 0,
+      "comma-dangle": [
+        "error",
+        "always-multiline"
+      ]
+    }
+  },
+  "engines": {
+    "node": "10",
+    "npm": "6.4"
+  },
+  "jest": {
+    "testMatch": [
+      "**/*.test.(js|ts)"
+    ],
+    "transform": {
+      ".\\.ts$": "ts-jest"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json"
+    ]
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "printWidth": 120,
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
+  "private": true,
+  "dependencies": {
+    "jest": "23.6.0",
+    "puppeteer": "1.10.0"
+  },
+  "devDependencies": {
+    "@types/jest": "23.3.9",
+    "@types/node": "10.12.3",
+    "@types/puppeteer": "1.10.0",
+    "eslint-config-xo-typescript": "0.2.0",
+    "eslint-plugin-typescript": "0.13.0",
+    "parcel": "1.10.3",
+    "ts-jest": "23.10.4",
+    "typescript": "3.1.6",
+    "typescript-eslint-parser": "20.1.1",
+    "xo": "0.23.0"
+  }
+}
