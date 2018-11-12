@@ -24,17 +24,25 @@ class Product {
   async owned() {
     const ownedElem = await this.elem.$('.owned');
     if (ownedElem === null) return 0;
-    return decodeCookies(await (await ownedElem.getProperty('textContent')).jsonValue());
+    const res = decodeCookies(await (await ownedElem.getProperty('textContent')).jsonValue());
+    await ownedElem.dispose();
+    return res;
   }
 
   async price() {
     const priceElem = await this.elem.$('.price');
     if (priceElem === null) return 0;
-    return decodeCookies(await (await priceElem.getProperty('textContent')).jsonValue());
+    const res = decodeCookies(await (await priceElem.getProperty('textContent')).jsonValue());
+    await priceElem.dispose();
+    return res;
   }
 
   async buy() {
     await this.elem.click();
+  }
+
+  async dispose() {
+    await this.elem.dispose();
   }
 }
 
@@ -49,6 +57,10 @@ export class Upgrade {
   async buy() {
     await this.elem.click();
   }
+
+  async dispose() {
+    await this.elem.dispose();
+  }
 }
 
 export async function getEnableUpgrades(page: Page) {
@@ -60,5 +72,6 @@ export async function getCookies(page: Page) {
   const elem = await page.$('#cookies');
   if (elem === null) return 0;
   const cookiesStr: string = await (await elem.getProperty('textContent')).jsonValue();
+  await elem.dispose();
   return decodeCookies(cookiesStr.replace(/ cookie.*$/, ''));
 }

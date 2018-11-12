@@ -4,11 +4,12 @@ import * as api from './api'
 import { sleep } from './utils'
 
 async function waitForResume(page: Page) {
-  await page.waitForFunction('!window.isPausing', { timeout: 0 });
+  await page.waitForFunction('!window.isPausing || window.isHalt', { timeout: 0 });
 }
 
 async function isHalt(page: Page) {
-  return await page.evaluate('window.isHalt');
+  let window: any; // for suppressing errors TAT
+  return await page.evaluate(() => window.isHalt);
 }
 
 async function buyProducts(page: Page) {
@@ -25,15 +26,17 @@ async function buyProducts(page: Page) {
     if (price > money) continue;
     if (owned[i] >= config.maxOwned) continue;
     if (i + 1 < products.length && owned[i] > owned[i + 1] * 2 + 1) continue;
-    product.buy();
+    await product.buy();
     break;
   }
+  await Promise.all(products.map(product => product.dispose()));
 }
 
 async function buyUpgrades(page: Page) {
   const upgrades = await api.getEnableUpgrades(page);
   if (upgrades.length === 0) return;
   await upgrades[0].buy();
+  await Promise.all(upgrades.map(upgrade => upgrade.dispose()));
 }
 
 export async function autoBake(page: Page, interval: number) {
